@@ -1,7 +1,20 @@
 import 'package:get/get.dart';
 
 class SudokuController extends GetxController {
-  List<List<int?>> sudokuBoard = List.generate(9, (_) => List.filled(9, null));
+  final sudokuBoard = List.generate(9, (_) => List.filled(9, 0)).obs;
+  final selectedRow = Rxn<int>();
+  final selectedCol = Rxn<int>();
+
+  onBoxTapped(int row, int col) {
+    selectedRow.value = row;
+    selectedCol.value = col;
+  }
+
+  onNumberTapped(int number) {
+    if (selectedRow.value != null && selectedCol.value != null) {
+      sudokuBoard[selectedRow.value!][selectedCol.value!] = number;
+    }
+  }
 
   bool isValidMove(int row, int col, int number) {
     // Check row

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sudoku/controllers/sudoku_controller.dart';
+import 'package:sudoku/services/widgets/number_block.dart';
 import 'package:sudoku/services/widgets/sudoku_cell.dart';
 
 class HomePage extends StatelessWidget {
@@ -7,7 +9,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SudokuController sudokuController = SudokuController();
+    final SudokuController sudokuController = Get.put(SudokuController());
 
     return Scaffold(
       body: Padding(
@@ -27,9 +29,11 @@ class HomePage extends StatelessWidget {
                 final col = index % 9;
 
                 return SudokuCell(
-                    value: sudokuController.sudokuBoard[row][col],
-                    row: row,
-                    col: col);
+                      value: sudokuController.sudokuBoard[row][col],
+                      row: row,
+                      col: col,
+                      onTap: () => sudokuController.onBoxTapped(row, col),
+                    );
               },
             ),
             SingleChildScrollView(
@@ -37,17 +41,9 @@ class HomePage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: List.generate(9, (index) {
-                  return Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 7, vertical: 8),
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        color: Colors.grey[400],
-                        borderRadius: BorderRadius.circular(3)),
-                    child: Text(
-                      (index + 1).toString(),
-                      style: const TextStyle(fontSize: 18),
-                    ),
+                  return NumberBlock(
+                    index: index,
+                    onTap: () => sudokuController.onNumberTapped(index + 1),
                   );
                 }),
               ),
