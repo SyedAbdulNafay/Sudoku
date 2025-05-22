@@ -11,8 +11,12 @@ class SudokuController extends GetxController {
   }
 
   onNumberTapped(int number) {
-    if (selectedRow.value != null && selectedCol.value != null) {
+    if (selectedRow.value != null &&
+        selectedCol.value != null &&
+        sudokuBoard[selectedRow.value!][selectedCol.value!] == 0 &&
+        isValidMove(selectedRow.value!, selectedCol.value!, number,)) {
       sudokuBoard[selectedRow.value!][selectedCol.value!] = number;
+      sudokuBoard.refresh();
     }
   }
 

@@ -29,7 +29,6 @@ class HomePage extends StatelessWidget {
                 final col = index % 9;
 
                 return SudokuCell(
-                      value: sudokuController.sudokuBoard[row][col],
                       row: row,
                       col: col,
                       onTap: () => sudokuController.onBoxTapped(row, col),

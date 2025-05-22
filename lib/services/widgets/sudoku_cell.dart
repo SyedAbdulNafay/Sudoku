@@ -3,13 +3,11 @@ import 'package:get/get.dart';
 import 'package:sudoku/controllers/sudoku_controller.dart';
 
 class SudokuCell extends StatelessWidget {
-  final int? value;
   final int row;
   final int col;
   final void Function()? onTap;
   const SudokuCell({
     super.key,
-    required this.value,
     required this.row,
     required this.col,
     this.onTap,
@@ -28,6 +26,8 @@ class SudokuCell extends StatelessWidget {
         sudokuController.selectedRow.value,
         sudokuController.selectedCol.value,
       );
+
+      final cellValue = sudokuController.sudokuBoard[row][col];
 
       return GestureDetector(
         onTap: onTap,
@@ -53,7 +53,10 @@ class SudokuCell extends StatelessWidget {
                     : const BorderSide(width: 0.5),
               )),
           child: Center(
-            child: Text(value != 0 ? value.toString() : ""),
+            child: Text(
+              cellValue != 0 ? cellValue.toString() : "",
+              style: TextStyle(fontSize: 25),
+            ),
           ),
         ),
       );
