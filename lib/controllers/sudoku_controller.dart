@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:sudoku/controllers/animation_controller.dart';
 
 class SudokuController extends GetxController {
   final sudokuBoard = List.generate(9, (_) => List.filled(9, 0)).obs;
   final selectedRow = Rxn<int>();
   final selectedCol = Rxn<int>();
+  final invalidMove = false.obs;
 
   onBoxTapped(int row, int col) {
     selectedRow.value = row;
@@ -16,7 +18,11 @@ class SudokuController extends GetxController {
         sudokuBoard[selectedRow.value!][selectedCol.value!] == 0 &&
         isValidMove(selectedRow.value!, selectedCol.value!, number,)) {
       sudokuBoard[selectedRow.value!][selectedCol.value!] = number;
+      invalidMove.value = false;
       sudokuBoard.refresh();
+    } else {
+      invalidMove.value = true;
+      Get.find<ShakeController>().triggerShake();
     }
   }
 

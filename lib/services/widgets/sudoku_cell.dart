@@ -33,11 +33,13 @@ class SudokuCell extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-              color: isSameCell
-                  ? Colors.grey[400]
-                  : (isSameRowOrCol || isSameBox
-                      ? Colors.grey[300]
-                      : Colors.transparent),
+              color: isSameCell && sudokuController.invalidMove.value
+                  ? Colors.red
+                  : (isSameCell
+                      ? Colors.grey[400]
+                      : (isSameRowOrCol || isSameBox
+                          ? Colors.grey[300]
+                          : Colors.transparent)),
               border: Border(
                 top: row % 3 == 0
                     ? const BorderSide(width: 2)
