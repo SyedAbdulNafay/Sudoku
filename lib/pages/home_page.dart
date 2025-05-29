@@ -46,18 +46,29 @@ class HomePage extends StatelessWidget {
                 },
               ),
             ),
-            SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(9, (index) {
-                  return NumberBlock(
-                    index: index,
-                    onTap: () => sudokuController.onNumberTapped(index + 1),
-                  );
-                }),
-              ),
-            )
+            const SizedBox(height: 20),
+            Obx(() => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(9, (index) {
+                    final isTapped =
+                        sudokuController.tappedIndex.value == index;
+                    return AnimatedScale(
+                      scale: isTapped ? 0.9 : 1.0,
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeIn,
+                      onEnd: () {
+                        if (isTapped) sudokuController.tappedIndex.value = -1;
+                      },
+                      child: GestureDetector(
+                        onTap: () {
+                          sudokuController.tappedIndex.value = index;
+                          sudokuController.onNumberTapped(index + 1);
+                        },
+                        child: NumberBlock(index: index),
+                      ),
+                    );
+                  }),
+                ))
           ],
         ),
       ),

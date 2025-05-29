@@ -57,7 +57,7 @@ class SudokuCell extends StatelessWidget {
           child: Center(
             child: Text(
               cellValue != 0 ? cellValue.toString() : "",
-              style: TextStyle(fontSize: 25),
+              style: const TextStyle(fontSize: 25),
             ),
           ),
         ),

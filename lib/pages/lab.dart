@@ -12,15 +12,15 @@ class Lab extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: AnimatedBuilder(
-          animation: shakeController.offsetAnimation,
+          animation: shakeController.bounceAnimation,
           builder: (context, child) {
-            return Transform.translate(
-              offset: Offset(shakeController.offsetAnimation.value, 0),
+            return Transform.scale(
+              scale: shakeController.bounceAnimation.value,
               child: child,
             );
           },
           child: GestureDetector(
-            onTap: () => shakeController.triggerShake(),
+            onTap: () => shakeController.bounce(),
             child: Container(
               height: 100,
               width: 100,

@@ -6,24 +6,28 @@ class SudokuController extends GetxController {
   final selectedRow = Rxn<int>();
   final selectedCol = Rxn<int>();
   final invalidMove = false.obs;
+  final tappedIndex = (-1).obs;
 
-  onBoxTapped(int row, int col) {
+  void onBoxTapped(int row, int col) {
+    invalidMove.value = false;
     selectedRow.value = row;
     selectedCol.value = col;
   }
 
-  onNumberTapped(int number) {
-    if (selectedRow.value != null &&
-        selectedCol.value != null &&
-        sudokuBoard[selectedRow.value!][selectedCol.value!] == 0 &&
-        isValidMove(selectedRow.value!, selectedCol.value!, number,)) {
-      sudokuBoard[selectedRow.value!][selectedCol.value!] = number;
-      invalidMove.value = false;
-      sudokuBoard.refresh();
-    } else {
+  void onNumberTapped(int number) {
+    if (selectedRow.value == null ||
+        selectedCol.value == null ||
+        sudokuBoard[selectedRow.value!][selectedCol.value!] != 0) return;
+
+    if (!isValidMove(selectedRow.value!, selectedCol.value!, number)) {
       invalidMove.value = true;
       Get.find<ShakeController>().triggerShake();
+      return;
     }
+
+    sudokuBoard[selectedRow.value!][selectedCol.value!] = number;
+    invalidMove.value = false;
+    sudokuBoard.refresh();
   }
 
   bool isValidMove(int row, int col, int number) {
