@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sudoku/controllers/animation_controller.dart';
 import 'package:sudoku/controllers/sudoku_controller.dart';
+import 'package:sudoku/services/widgets/function_button.dart';
 import 'package:sudoku/services/widgets/number_block.dart';
 import 'package:sudoku/services/widgets/sudoku_cell.dart';
 
@@ -45,6 +47,22 @@ class HomePage extends StatelessWidget {
                   );
                 },
               ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const FunctionButton(
+                    text: "Undo", icon: Icon(Icons.undo_rounded)),
+                FunctionButton(
+                  text: "Erase",
+                  icon: SvgPicture.asset(
+                    'assets/svg/eraser.svg',
+                    height: 25,
+                  ),
+                  onTap: () => sudokuController.erase(),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
             Obx(() => Row(

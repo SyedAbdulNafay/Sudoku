@@ -27,7 +27,7 @@ class SudokuCell extends StatelessWidget {
         sudokuController.selectedCol.value,
       );
 
-      final cellValue = sudokuController.sudokuBoard[row][col];
+      int cellValue = sudokuController.sudokuBoard[row][col];
 
       return GestureDetector(
         onTap: onTap,

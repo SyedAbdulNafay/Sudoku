@@ -1,12 +1,25 @@
 import 'package:get/get.dart';
 import 'package:sudoku/controllers/animation_controller.dart';
+import 'package:sudoku/models/sudoku_generator.dart';
 
 class SudokuController extends GetxController {
+  final generator = SudokuGenerator();
   final sudokuBoard = List.generate(9, (_) => List.filled(9, 0)).obs;
   final selectedRow = Rxn<int>();
   final selectedCol = Rxn<int>();
   final invalidMove = false.obs;
   final tappedIndex = (-1).obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    generateNewBoard();
+  }
+
+  void generateNewBoard() {
+    sudokuBoard.value = generator.generateFullBoard();
+    sudokuBoard.refresh();
+  }
 
   void onBoxTapped(int row, int col) {
     invalidMove.value = false;
@@ -27,6 +40,13 @@ class SudokuController extends GetxController {
 
     sudokuBoard[selectedRow.value!][selectedCol.value!] = number;
     invalidMove.value = false;
+    sudokuBoard.refresh();
+  }
+
+  void erase() {
+    if (selectedRow.value == null || selectedCol.value == null) return;
+
+    sudokuBoard[selectedRow.value!][selectedCol.value!] = 0;
     sudokuBoard.refresh();
   }
 
