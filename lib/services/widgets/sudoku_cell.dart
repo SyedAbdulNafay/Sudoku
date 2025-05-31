@@ -28,6 +28,18 @@ class SudokuCell extends StatelessWidget {
       );
 
       int cellValue = sudokuController.sudokuBoard[row][col];
+      bool isSameValue = false;
+
+      if (sudokuController.selectedRow.value != null &&
+          sudokuController.selectedCol.value != null) {
+        isSameValue = cellValue ==
+                sudokuController
+                        .sudokuBoard[sudokuController.selectedRow.value!]
+                    [sudokuController.selectedCol.value!] &&
+            sudokuController.sudokuBoard[sudokuController.selectedRow.value!]
+                    [sudokuController.selectedCol.value!] !=
+                0;
+      }
 
       return GestureDetector(
         onTap: onTap,
@@ -35,7 +47,7 @@ class SudokuCell extends StatelessWidget {
           decoration: BoxDecoration(
               color: isSameCell && sudokuController.invalidMove.value
                   ? Colors.red
-                  : (isSameCell
+                  : (isSameCell || isSameValue
                       ? Colors.grey[400]
                       : (isSameRowOrCol || isSameBox
                           ? Colors.grey[300]

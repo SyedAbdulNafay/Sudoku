@@ -4,6 +4,7 @@ import 'package:sudoku/models/sudoku_generator.dart';
 
 class SudokuController extends GetxController {
   final generator = SudokuGenerator();
+  late final List<List<int>> solvedBoard;
   final sudokuBoard = List.generate(9, (_) => List.filled(9, 0)).obs;
   final selectedRow = Rxn<int>();
   final selectedCol = Rxn<int>();
@@ -17,7 +18,8 @@ class SudokuController extends GetxController {
   }
 
   void generateNewBoard() {
-    sudokuBoard.value = generator.generateFullBoard();
+    solvedBoard = generator.generateFullBoard();
+    sudokuBoard.value = generator.generatePuzzle(fullBoard: solvedBoard);
     sudokuBoard.refresh();
   }
 
@@ -32,7 +34,8 @@ class SudokuController extends GetxController {
         selectedCol.value == null ||
         sudokuBoard[selectedRow.value!][selectedCol.value!] != 0) return;
 
-    if (!isValidMove(selectedRow.value!, selectedCol.value!, number)) {
+    if (!isValidMove(selectedRow.value!, selectedCol.value!, number) ||
+        solvedBoard[selectedRow.value!][selectedCol.value!] != number) {
       invalidMove.value = true;
       Get.find<ShakeController>().triggerShake();
       return;

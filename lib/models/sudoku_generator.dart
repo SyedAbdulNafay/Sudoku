@@ -42,4 +42,29 @@ class SudokuGenerator {
 
     return true;
   }
+
+  // Create a puzzle board
+  List<List<int>> generatePuzzle({int clues = 30, required List<List<int>> fullBoard}) {
+    // final List<List<int>> fullBoard = generateFullBoard();
+    final List<List<int>> puzzle = List.generate(9, (i) => List.from(fullBoard[i]));
+    int removed = 0;
+
+    final cells = List.generate(81, (i) => i)..shuffle(_rand);
+
+    for (int index in cells) {
+      if (81 - removed <= clues) break;
+
+      int row = index ~/ 9;
+      int col = index % 9;
+      // int backup = puzzle[row][col];
+
+      puzzle[row][col] = 0;
+
+      // Optional: add uniqueness check here
+
+      removed++;
+    }
+
+    return puzzle;
+  }
 }
