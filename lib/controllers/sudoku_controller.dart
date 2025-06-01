@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudoku/controllers/animation_controller.dart';
 import 'package:sudoku/models/sudoku_generator.dart';
@@ -6,6 +7,17 @@ class SudokuController extends GetxController {
   final generator = SudokuGenerator();
   late final List<List<int>> solvedBoard;
   final sudokuBoard = List.generate(9, (_) => List.filled(9, 0)).obs;
+  final numberBlocks = {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 0,
+    9: 0,
+  }.obs;
   final selectedRow = Rxn<int>();
   final selectedCol = Rxn<int>();
   final invalidMove = false.obs;
@@ -19,7 +31,7 @@ class SudokuController extends GetxController {
 
   void generateNewBoard() {
     solvedBoard = generator.generateFullBoard();
-    sudokuBoard.value = generator.generatePuzzle(fullBoard: solvedBoard);
+    sudokuBoard.value = generator.generatePuzzle(fullBoard: solvedBoard, numberBlocks: numberBlocks);
     sudokuBoard.refresh();
   }
 
@@ -41,6 +53,10 @@ class SudokuController extends GetxController {
       return;
     }
 
+    if (numberBlocks[number] != 0) {
+      numberBlocks[number] = numberBlocks[number]! - 1;
+    }
+    debugPrint(numberBlocks[number].toString());
     sudokuBoard[selectedRow.value!][selectedCol.value!] = number;
     invalidMove.value = false;
     sudokuBoard.refresh();

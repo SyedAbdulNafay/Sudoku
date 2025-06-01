@@ -44,9 +44,12 @@ class SudokuGenerator {
   }
 
   // Create a puzzle board
-  List<List<int>> generatePuzzle({int clues = 30, required List<List<int>> fullBoard}) {
-    // final List<List<int>> fullBoard = generateFullBoard();
-    final List<List<int>> puzzle = List.generate(9, (i) => List.from(fullBoard[i]));
+  List<List<int>> generatePuzzle(
+      {int clues = 30,
+      required List<List<int>> fullBoard,
+      required Map<int, int> numberBlocks}) {
+    final List<List<int>> puzzle =
+        List.generate(9, (i) => List.from(fullBoard[i]));
     int removed = 0;
 
     final cells = List.generate(81, (i) => i)..shuffle(_rand);
@@ -57,6 +60,10 @@ class SudokuGenerator {
       int row = index ~/ 9;
       int col = index % 9;
       // int backup = puzzle[row][col];
+
+      if (numberBlocks[puzzle[row][col]] != 9) {
+        numberBlocks[puzzle[row][col]] = numberBlocks[puzzle[row][col]]! + 1;
+      }
 
       puzzle[row][col] = 0;
 

@@ -82,11 +82,19 @@ class HomePage extends StatelessWidget {
                           sudokuController.tappedIndex.value = index;
                           sudokuController.onNumberTapped(index + 1);
                         },
-                        child: NumberBlock(index: index),
+                        child: sudokuController.numberBlocks[index + 1]! == 0
+                            ? const SizedBox(
+                                width: 32,
+                              )
+                            : NumberBlock(
+                                index: index,
+                                numbersLeft:
+                                    sudokuController.numberBlocks[index + 1]!,
+                              ),
                       ),
                     );
                   }),
-                ))
+                )),
           ],
         ),
       ),
